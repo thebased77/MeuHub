@@ -1,2 +1,0 @@
-# MeuHub
-MeuHubScripts
