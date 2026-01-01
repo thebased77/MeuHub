@@ -1,138 +1,68 @@
-# MeuHub
-MeuHubScripts
---[[ 
-    MeuHub Base
-    Criado por: Você
-    Uso educacional
-]]
 
--- 🔒 Proteção básica contra crash
-pcall(function()
+-- MeuHub Base (Compatível com Fluxus)
 
 -- ===============================
--- 📦 SERVIÇOS
+-- SERVIÇOS
 -- ===============================
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 
 -- ===============================
--- 🌐 UI LIBRARY (Rayfield)
+-- TESTE DE EXECUÇÃO
+-- ===============================
+print("MeuHub iniciou")
+
+-- ===============================
+-- UI LIBRARY (Rayfield)
 -- ===============================
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
+-- ===============================
+-- JANELA
+-- ===============================
 local Window = Rayfield:CreateWindow({
     Name = "Meu Hub",
     LoadingTitle = "Meu Hub",
-    LoadingSubtitle = "by Você",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "MeuHub",
-        FileName = "Config"
-    },
-    Discord = {
-        Enabled = false
-    },
+    LoadingSubtitle = "by thebased77",
     KeySystem = false
 })
 
 -- ===============================
--- 📑 ABAS
+-- ABAS
 -- ===============================
-local FarmTab = Window:CreateTab("🌾 Farm")
-local PlayerTab = Window:CreateTab("👤 Player")
-local TeleportTab = Window:CreateTab("🗺️ Teleport")
-local SettingsTab = Window:CreateTab("⚙️ Settings")
+local FarmTab = Window:CreateTab("Farm")
+local PlayerTab = Window:CreateTab("Player")
 
 -- ===============================
--- 🌾 FARM TAB
+-- FARM
 -- ===============================
 _G.AutoFarm = false
 
-local function AutoFarmLoop()
-    task.spawn(function()
-        while _G.AutoFarm do
-            task.wait(0.5)
-
-            if LocalPlayer.Character
-            and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                print("Auto Farm rodando...")
-                -- Aqui você coloca a lógica real depois
-            end
-        end
-    end)
-end
-
 FarmTab:CreateToggle({
-    Name = "Auto Farm (Base)",
+    Name = "Auto Farm (Teste)",
     CurrentValue = false,
     Callback = function(Value)
         _G.AutoFarm = Value
-        if Value then
-            AutoFarmLoop()
-        end
+
+        task.spawn(function()
+            while _G.AutoFarm do
+                task.wait(1)
+                print("Auto Farm rodando")
+            end
+        end)
     end
 })
 
 -- ===============================
--- 👤 PLAYER TAB
+-- PLAYER
 -- ===============================
-PlayerTab:CreateSlider({
-    Name = "WalkSpeed",
-    Range = {16, 300},
-    Increment = 1,
-    CurrentValue = 16,
-    Callback = function(Value)
-        if LocalPlayer.Character
-        and LocalPlayer.Character:FindFirstChild("Humanoid") then
-            LocalPlayer.Character.Humanoid.WalkSpeed = Value
-        end
-    end
-})
-
-PlayerTab:CreateSlider({
-    Name = "JumpPower",
-    Range = {50, 300},
-    Increment = 5,
-    CurrentValue = 50,
-    Callback = function(Value)
-        if LocalPlayer.Character
-        and LocalPlayer.Character:FindFirstChild("Humanoid") then
-            LocalPlayer.Character.Humanoid.JumpPower = Value
-        end
-    end
-})
-
--- ===============================
--- 🗺️ TELEPORT TAB
--- ===============================
-TeleportTab:CreateButton({
-    Name = "Teleportar para Spawn",
+PlayerTab:CreateButton({
+    Name = "Notificação de Teste",
     Callback = function()
-        if LocalPlayer.Character
-        and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-            LocalPlayer.Character.HumanoidRootPart.CFrame =
-                CFrame.new(0, 10, 0)
-        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Meu Hub",
+            Text = "Funcionando no Fluxus!",
+            Duration = 4
+        })
     end
 })
-
--- ===============================
--- ⚙️ SETTINGS TAB
--- ===============================
-SettingsTab:CreateButton({
-    Name = "Recarregar Hub",
-    Callback = function()
-        Rayfield:Destroy()
-        loadstring(game:HttpGet("SEU_LINK_RAW_AQUI"))()
-    end
-})
-
-SettingsTab:CreateButton({
-    Name = "Fechar Hub",
-    Callback = function()
-        Rayfield:Destroy()
-    end
-})
-
-end)
